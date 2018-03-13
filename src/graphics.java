@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import data_treatment.CheckandSubmit;
 import data_treatment.ConcurrentQueue;
 import graphics_tools.dataReader;
-import graphics_tools.givesec;
 import tc.TC;
 
 /*
@@ -39,17 +38,18 @@ public class graphics extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void start(){
+    private void start(graphics g){
     	
-    	
+    	//initComponents() ;
     	Name.setEnabled(true);
     	Summit.setEnabled(true);
     	typer.setEnabled(false);
     	Runnable runnable3 = new Running(Time, this) ;
     	running = new Thread(runnable3);
-    	Runnable runnable2 = new CheckandSubmit("dictionary/dictionary.txt", pile, points, incorrect_words, scoreNOW) ;
+    	Runnable runnable2 = new CheckandSubmit("dictionary/dictionary.txt", pile, points, incorrect_words, this) ;
         checker = new Thread(runnable2) ;
     	
+        
     	Summit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	String finalName = Name.getText() ;
@@ -92,8 +92,6 @@ public class graphics extends javax.swing.JFrame {
         typer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	String wordtoprocess = typer.getText() ;
-                System.out.println(wordtoprocess);
-                textNOW.append(wordtoprocess + " | ");
                 if(TC.motsDeChaine(wordtoprocess).length > 1){
                 	System.out.println("ERREUR");
                 	typer.setText("Typing Error, one word please");
@@ -101,12 +99,12 @@ public class graphics extends javax.swing.JFrame {
                 else{
                 	try {
 						pile.put(wordtoprocess) ;
-						System.out.println("Success");
+						//System.out.println("Success");
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                    System.out.println(pile);
+                    //System.out.println(pile);
                     typer.setText("");
                 }
                 
@@ -117,7 +115,19 @@ public class graphics extends javax.swing.JFrame {
     
     
     public void stop(){
-    	start() ;
+    	running.interrupt();
+    	checker.interrupt();
+    	//running = null ;
+    	//checker = null ;
+    	
+    	
+    	//System.out.println("le best score est : " + userData.scoreToString(Name.getText()) + " et le score actuel est " + scoreNOW.getText());
+    	if (Integer.parseInt(userData.scoreToString(Name.getText())) < Integer.parseInt(scoreNOW.getText()) ){
+    		userData.add(Name.getText(), Integer.parseInt(scoreNOW.getText())) ;
+    		JOptionPane.showMessageDialog(Time, "Over ! Vous avez battu votre meilleur score ! Voici votre score : " + scoreNOW.getText() + " !" );
+    	}
+    	else JOptionPane.showMessageDialog(Time, "Over ! Voici votre score : " + scoreNOW.getText() + " !");
+    	start(this) ;
     }
     
     private void initComponents() {
@@ -147,18 +157,25 @@ public class graphics extends javax.swing.JFrame {
         incorrectNOW = new javax.swing.JTextPane();
         typer = new javax.swing.JTextField();
         typer.setEnabled(false);
+        observation_Panel = new javax.swing.JPanel();
+        observation_Text = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        observationNOW = new javax.swing.JTextArea();
         
         //Variables utilisateur
     	userData = new dataReader("data/User_Data.txt") ; //préparation données utilisateurs
         pile = new ConcurrentQueue<String>() ; //les mots traités
     	points = 0 ;
     	incorrect_words = new LinkedList<String> () ;
-        Runnable runnable3 = new Running(Time, this) ;
-        running = new Thread(runnable3) ; //Thread gérant l'affichage de l'écoulement du temps et qui gère l'arrêt
-        Runnable runnable2 = new CheckandSubmit("dictionary/dictionary.txt", pile, points, incorrect_words, scoreNOW) ;
-        checker = new Thread(runnable2) ; //Thread gérant le traitement des mots (pile) en regard d'un dictionnaire, et qui renvoit les points (donc le score) et les mots incorrects
+        //Runnable runnable3 = new Running(Time, this) ;
+        //running = new Thread(runnable3) ; //Thread gérant l'affichage de l'écoulement du temps et qui gère l'arrêt
+        //Runnable runnable2 = new CheckandSubmit("dictionary/dictionary.txt", pile, points, incorrect_words, scoreNOW) ;
+        //checker = new Thread(runnable2) ; //Thread gérant le traitement des mots (pile) en regard d'un dictionnaire, et qui renvoit les points (donc le score) et les mots incorrects
         this.first = true ; //boolean indiquant si une partie a déjà été jouée
-        
+        Runnable runnable3 = new Running(Time, this) ;
+    	running = new Thread(runnable3);
+    	Runnable runnable2 = new CheckandSubmit("dictionary/dictionary.txt", pile, points, incorrect_words, this) ;
+        checker = new Thread(runnable2) ;
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -353,6 +370,37 @@ public class graphics extends javax.swing.JFrame {
         );
 
         
+        observation_Panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        observation_Text.setText("Observations :");
+
+        observationNOW.setColumns(20);
+        observationNOW.setRows(5);
+        jScrollPane1.setViewportView(observationNOW);
+
+        javax.swing.GroupLayout observation_PanelLayout = new javax.swing.GroupLayout(observation_Panel);
+        observation_Panel.setLayout(observation_PanelLayout);
+        observation_PanelLayout.setHorizontalGroup(
+            observation_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(observation_PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(observation_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(observation_PanelLayout.createSequentialGroup()
+                        .addComponent(observation_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
+        );
+        observation_PanelLayout.setVerticalGroup(
+            observation_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(observation_PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(observation_Text)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        
         /**
          * VII. Création du GroupLayout contenant toutes les Zones
          */
@@ -369,7 +417,8 @@ public class graphics extends javax.swing.JFrame {
                     .addComponent(name_Panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(time_Pannel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(score_Pannel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(incorrect_Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(incorrect_Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                	.addComponent(observation_Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         speedTyper_PanelLayout.setVerticalGroup(
@@ -386,7 +435,10 @@ public class graphics extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(typing_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(incorrect_Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(incorrect_Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(observation_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -443,7 +495,10 @@ public class graphics extends javax.swing.JFrame {
             public void run() {
             	graphics g = new graphics() ;
                 g.setVisible(true);
-                g.start() ;
+                g.start(g) ;
+            	System.out.println("Test ");
+            	System.out.println(userData.getScore("Your Name"));
+            	userData.add("Your Name", 24);
 
             }
         });
@@ -457,27 +512,31 @@ public class graphics extends javax.swing.JFrame {
     private javax.swing.JLabel Time;
     private javax.swing.JLabel Typingarea_Text;
     private javax.swing.JPanel best_Panel;
-    private javax.swing.JTextPane incorrectNOW;
+    public javax.swing.JTextPane incorrectNOW;
     private javax.swing.JPanel incorrect_Panel;
     private javax.swing.JLabel incorrect_Text;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel name_Panel;
     private javax.swing.JLabel onmarks_Text;
-    private javax.swing.JLabel scoreNOW;
+    public javax.swing.JLabel scoreNOW;
     private javax.swing.JPanel score_Pannel;
     private javax.swing.JLabel score_Text;
     private javax.swing.JPanel speedTyper_Panel;
-    private JTextArea textNOW;
+    JTextArea textNOW;
     private javax.swing.JPanel time_Pannel;
     private javax.swing.JPanel typing_Panel;
     private javax.swing.JTextField typer;
     private boolean first ;
+    private javax.swing.JTextArea observationNOW;
+    private javax.swing.JPanel observation_Panel;
+    private javax.swing.JLabel observation_Text;
     private ConcurrentQueue<String> pile ;
 	private Integer points ;
 	private LinkedList<String> incorrect_words ;
 	private Thread running ;
-	private dataReader userData ;
+	private static dataReader userData ;
 	private Thread checker ;
     // End of variables declaration//GEN-END:variables
 }

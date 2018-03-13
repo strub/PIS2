@@ -4,7 +4,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JOptionPane;
 
-import graphics_tools.givesec;
 
 public class Running implements Runnable {
 	private javax.swing.JLabel Time;
@@ -12,7 +11,7 @@ public class Running implements Runnable {
 	private final Condition notOver ;
 	private graphics g ;
 	int m = 5 ;
-	int t = 60 ; //m*60 ;
+	int t = 10 ; //m*60 ;
 	
 	Running(javax.swing.JLabel Time, graphics g ){
         lock = new ReentrantLock() ;
@@ -35,7 +34,6 @@ public class Running implements Runnable {
         	decpt-- ; 
         	Time.setText(toString(decpt));
         	if(decpt==0) {
-        		JOptionPane.showMessageDialog(Time, "Over !");
         		break ;
         	}
         }

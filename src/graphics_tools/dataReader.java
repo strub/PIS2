@@ -2,10 +2,12 @@ package graphics_tools;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import tc.TC;
@@ -69,6 +71,26 @@ public class dataReader {
 			BufferedWriter output = new BufferedWriter(fw) ;
 			output.write(name + " " + 0);
 			output.newLine();
+			output.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void add(String name, int score){
+		Users.put(name, score) ;
+		File text = new File(filename) ;
+		text.delete() ;
+		try {
+			FileWriter fw = new FileWriter(filename, true) ;
+			BufferedWriter output = new BufferedWriter(fw) ;
+			output.write("User / Best Score");
+			output.newLine(); output.newLine();
+			for( String name1 : Users.keySet()){
+				output.write(name1 + " " + Users.get(name1));
+				output.newLine();
+			}
 			output.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
