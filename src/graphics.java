@@ -55,7 +55,7 @@ public class graphics extends javax.swing.JFrame {
             	String finalName = Name.getText() ;
                 Name.setEnabled(false);
                 Summit.setEnabled(false);
-                // recherche des données utilisateurs 
+                // recherche des donnÃ©es utilisateurs 
                 if(userData.contains(finalName)){
                 	BestScore.setText(userData.scoreToString(finalName));
                 }
@@ -65,9 +65,9 @@ public class graphics extends javax.swing.JFrame {
                 
                 
                 
-                running.start(); //s'arrêtera à la fin du décompte de temps 
-                checker.start(); //module de vérification des mots
-                typer.setEnabled(true); //l'utilisateur commence à jouer
+                running.start(); //s'arrÃªtera Ã  la fin du dÃ©compte de temps 
+                checker.start(); //module de vÃ©rification des mots
+                typer.setEnabled(true); //l'utilisateur commence Ã  jouer
                 
                 
             }
@@ -163,15 +163,15 @@ public class graphics extends javax.swing.JFrame {
         observationNOW = new javax.swing.JTextArea();
         
         //Variables utilisateur
-    	userData = new dataReader("data/User_Data.txt") ; //préparation données utilisateurs
-        pile = new ConcurrentQueue<String>() ; //les mots traités
+    	userData = new dataReader("data/User_Data.txt") ; //prÃ©paration donnÃ©es utilisateurs
+        pile = new ConcurrentQueue<String>() ; //les mots traitÃ©s
     	points = 0 ;
     	incorrect_words = new LinkedList<String> () ;
         //Runnable runnable3 = new Running(Time, this) ;
-        //running = new Thread(runnable3) ; //Thread gérant l'affichage de l'écoulement du temps et qui gère l'arrêt
+        //running = new Thread(runnable3) ; //Thread gÃ©rant l'affichage de l'Ã©coulement du temps et qui gÃ¨re l'arrÃªt
         //Runnable runnable2 = new CheckandSubmit("dictionary/dictionary.txt", pile, points, incorrect_words, scoreNOW) ;
-        //checker = new Thread(runnable2) ; //Thread gérant le traitement des mots (pile) en regard d'un dictionnaire, et qui renvoit les points (donc le score) et les mots incorrects
-        this.first = true ; //boolean indiquant si une partie a déjà été jouée
+        //checker = new Thread(runnable2) ; //Thread gÃ©rant le traitement des mots (pile) en regard d'un dictionnaire, et qui renvoit les points (donc le score) et les mots incorrects
+        this.first = true ; //boolean indiquant si une partie a dÃ©jÃ  Ã©tÃ© jouÃ©e
         Runnable runnable3 = new Running(Time, this) ;
     	running = new Thread(runnable3);
     	Runnable runnable2 = new CheckandSubmit("dictionary/dictionary.txt", pile, points, incorrect_words, this) ;
@@ -182,7 +182,7 @@ public class graphics extends javax.swing.JFrame {
         speedTyper_Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("speedTyper"));
         
         /**
-         * I. Création du premier Paneau contenant le meilleur score de l'utilisateur
+         * I. CrÃ©ation du premier Paneau contenant le meilleur score de l'utilisateur
          */
         
         best_Panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -209,7 +209,7 @@ public class graphics extends javax.swing.JFrame {
 
         
         /**
-         * II. Création du Paneau contenant le nom de l'utilisateur et du bouton Summit
+         * II. CrÃ©ation du Paneau contenant le nom de l'utilisateur et du bouton Summit
          */
         
         name_Panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -241,7 +241,7 @@ public class graphics extends javax.swing.JFrame {
 
         
         /**
-         * III. Création du Paneau contenant le score de l'utilisateur 
+         * III. CrÃ©ation du Paneau contenant le score de l'utilisateur 
          */
         
         score_Pannel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -269,7 +269,7 @@ public class graphics extends javax.swing.JFrame {
         
         
         /**
-         * IV. Création du Paneau contenant le temps restant
+         * IV. CrÃ©ation du Paneau contenant le temps restant
          */
         
         time_Pannel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -297,7 +297,7 @@ public class graphics extends javax.swing.JFrame {
         
         
         /**
-         * V. Création du Paneau contenant la zone de texte
+         * V. CrÃ©ation du Paneau contenant la zone de texte
          */
         
         typing_Panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -339,7 +339,7 @@ public class graphics extends javax.swing.JFrame {
         
         
         /**
-         * VI. Création du Paneau contenant la zone des mots incorrects
+         * VI. CrÃ©ation du Paneau contenant la zone des mots incorrects
          */
         
         incorrect_Panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -402,7 +402,7 @@ public class graphics extends javax.swing.JFrame {
         );
         
         /**
-         * VII. Création du GroupLayout contenant toutes les Zones
+         * VII. CrÃ©ation du GroupLayout contenant toutes les Zones
          */
         
         javax.swing.GroupLayout speedTyper_PanelLayout = new javax.swing.GroupLayout(speedTyper_Panel);
